@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JanMitra Test Government Form</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f1f3fb;
+      color: #1f3268;
+      padding: 28px;
+    }
+    .form-shell {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 18px 35px rgba(31, 50, 104, 0.12);
+      padding: 28px;
+    }
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    .description {
+      font-size: 14px;
+      color: #475177;
+      margin-bottom: 24px;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .field-row.full {
+      grid-template-columns: 1fr;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #172957;
+    }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #c7d1ec;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: #172957;
+      background: #ffffff;
+    }
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+    .hint {
+      margin-top: 0;
+      font-size: 12px;
+      color: #5a6c99;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-shell">
+    <h1>Government Application Form</h1>
+    <p class="description">This supported test form is used by the JanMitra AI extension for offline field detection and review. No submission is automated.</p>
+
+    <div class="field-row">
+      <div>
+        <label for="fullName">Full Name</label>
+        <input id="fullName" name="fullName" type="text" placeholder="Enter full name" />
+      </div>
+      <div>
+        <label for="dob">Date of Birth</label>
+        <input id="dob" name="dob" type="text" placeholder="DD/MM/YYYY" />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender">
+          <option value="">Select gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div>
+        <label for="mobile">Mobile Number</label>
+        <input id="mobile" name="mobile" type="tel" placeholder="10-digit mobile" />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label for="aadhaar">Aadhaar Number</label>
+        <input id="aadhaar" name="aadhaar" type="text" placeholder="12-digit Aadhaar" />
+      </div>
+      <div>
+        <label for="address">Address</label>
+        <textarea id="address" name="address" placeholder="Enter address"></textarea>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label for="district">District</label>
+        <input id="district" name="district" type="text" placeholder="Enter district" />
+      </div>
+      <div>
+        <label for="state">State</label>
+        <input id="state" name="state" type="text" placeholder="Enter state" />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label for="pinCode">PIN Code</label>
+        <input id="pinCode" name="pinCode" type="text" placeholder="6-digit PIN Code" />
+      </div>
+      <div>
+        <label for="annualIncome">Annual Family Income</label>
+        <input id="annualIncome" name="annualIncome" type="text" placeholder="Numeric income" />
+      </div>
+    </div>
+
+    <p class="hint">After loading the extension, use the popup or floating assistant to review and fill the form. The submit button is intentionally not controlled.</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JanMitra AI</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="popup-shell">
+    <header>
+      <div class="brand-icon">JM</div>
+      <div>
+        <h1>JanMitra AI</h1>
+        <p>Government Form Assistant</p>
+      </div>
+    </header>
+
+    <section class="status-card">
+      <div class="status-label">Status</div>
+      <div class="status-value" id="statusValue">Checking...</div>
+      <div class="status-help" id="statusHelp"></div>
+    </section>
+
+    <section class="info-grid">
+      <div>
+        <span class="info-title">Citizen</span>
+        <span class="info-value">Tejas Babar</span>
+      </div>
+      <div>
+        <span class="info-title">Fields ready</span>
+        <span class="info-value" id="fieldsReady">0</span>
+      </div>
+    </section>
+
+    <div class="button-group">
+      <button id="reviewButton" class="secondary">Review Information</button>
+      <button id="fillButton">Fill Form</button>
+    </div>
+
+    <div class="warning-box">
+      <strong>Warning:</strong>
+      <span>Review all information before submitting.</span>
+    </div>
+
+    <div class="review-panel hidden" id="reviewPanel">
+      <div class="review-header">
+        <h2>Review values</h2>
+        <button id="closeReview">×</button>
+      </div>
+      <div id="reviewList" class="review-list"></div>
+      <button id="confirmFill" class="confirm">Confirm & Fill</button>
+      <div class="review-note">Only after confirmation will the extension fill the form.</div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

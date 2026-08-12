@@ -84,7 +84,7 @@ const steps = [
     iconBg: 'bg-navy',
     title: 'Guided Application Submission',
     description: 'Sarthi AI guides you through the final submission process, ensuring all fields are complete and documents are attached correctly.',
-    example: 'Example: "All required fields are filled. Attach your Aadhaar and click Submit. Here's the link."',
+    example: 'Example: "All required fields are filled. Attach your Aadhaar and click Submit. Heres the link."',
     features: [
       'Pre-submission review checklist',
       'Direct links to government portals',

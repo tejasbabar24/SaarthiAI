@@ -37,7 +37,7 @@ const steps = [
     features: [
       'Real-time eligibility scoring',
       'Criterion-by-criterion breakdown',
-      'Clear explanation of what's missing',
+      "Clear explanation of what's missing",
       'Suggests profile improvements',
     ],
   },

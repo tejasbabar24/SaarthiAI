@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sarthi AI – Digital Citizen Assistant</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#0B1768', dark: '#111B5E' },
+            orange: { DEFAULT: '#F59A23', dark: '#d4820d' },
+            blue: { brand: '#13A9E8', dark: '#0d8ec5' },
+            bg: '#F7F8FC',
+            border: '#DDE2EC',
+            'text-dark': '#20243A',
+            'text-muted': '#6B7280',
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- React & Babel CDNs for instant execution -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #F7F8FC; color: #20243A; }
+    .card { background: white; border: 1px solid #DDE2EC; border-radius: 0.75rem; padding: 1.25rem; box-shadow: 0 1px 4px rgba(11,23,104,0.07); }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.625rem 1.25rem; background-color: #13A9E8; color: white; font-weight: 600; border-radius: 0.5rem; font-size: 0.875rem; }
+    .btn-primary:hover { background-color: #0d8ec5; }
+    .btn-navy { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.625rem 1.25rem; background-color: #0B1768; color: white; font-weight: 600; border-radius: 0.5rem; font-size: 0.875rem; }
+    .btn-navy:hover { background-color: #111B5E; }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.625rem 1.25rem; border: 1px solid #DDE2EC; color: #20243A; font-weight: 600; border-radius: 0.5rem; font-size: 0.875rem; background: white; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const SCHEMES = [
+      { id: 1, name: "Savitribai Phule Scholarship", category: "Education", benefit: "₹5,000 – ₹15,000 / year", desc: "Financial support for girl students from SC/ST/OBC communities.", match: 92, state: "Maharashtra" },
+      { id: 2, name: "Post Matric Scholarship", category: "Education", benefit: "₹3,000 – ₹12,000 / year", desc: "Central government scholarship for SC students pursuing higher education.", match: 88, state: "All India" },
+      { id: 3, name: "PM Kisan Samman Nidhi", category: "Agriculture", benefit: "₹6,000 / year (3 installments)", desc: "Direct benefit transfer support to small and marginal farmer families.", match: 75, state: "All India" },
+      { id: 4, name: "Ayushman Bharat PM-JAY", category: "Health", benefit: "₹5 Lakh insurance / family", desc: "Health insurance coverage for secondary and tertiary hospitalization.", match: 85, state: "All India" },
+      { id: 5, name: "Pradhan Mantri Awas Yojana", category: "Housing", benefit: "Up to ₹2.67 Lakh subsidy", desc: "Credit-linked home loan subsidy for urban poor & middle-income groups.", match: 60, state: "All India" },
+      { id: 6, name: "PM Jan Dhan Yojana", category: "Social Welfare", benefit: "Zero balance + ₹2L Insurance", desc: "Universal banking inclusion scheme with insurance & overdraft.", match: 95, state: "All India" },
+    ];
+
+    function App() {
+      const [page, setPage] = useState('home');
+      const [chatInput, setChatInput] = useState('');
+      const [chatMsgs, setChatMsgs] = useState([
+        { role: 'user', text: 'माझ्या मुलीसाठी कोणत्या scholarship उपलब्ध आहेत?' },
+        { role: 'assistant', text: 'I found 4 schemes matching your profile.', schemes: SCHEMES.slice(0, 2) }
+      ]);
+      const [search, setSearch] = useState('');
+      const [selectedCat, setSelectedCat] = useState('All');
+
+      useEffect(() => {
+        if (window.lucide) window.lucide.createIcons();
+      }, [page, chatMsgs]);
+
+      const handleChatSend = () => {
+        if (!chatInput.trim()) return;
+        const text = chatInput;
+        setChatInput('');
+        setChatMsgs(prev => [...prev, { role: 'user', text }]);
+        setTimeout(() => {
+          setChatMsgs(prev => [...prev, {
+            role: 'assistant',
+            text: `Based on your profile, here are recommended options for "${text}":`,
+            schemes: SCHEMES.slice(0, 2)
+          }]);
+        }, 600);
+      };
+
+      const filteredSchemes = SCHEMES.filter(s => {
+        const matchesSearch = s.name.toLowerCase().includes(search.toLowerCase()) || s.desc.toLowerCase().includes(search.toLowerCase());
+        const matchesCat = selectedCat === 'All' || s.category === selectedCat;
+        return matchesSearch && matchesCat;
+      });
+
+      return (
+        <div className="min-h-screen flex flex-col">
+          {/* Navbar */}
+          <header className="sticky top-0 z-50 bg-white border-b border-border shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+              <div className="flex items-center gap-2 cursor-pointer" onClick={() => setPage('home')}>
+                <div className="w-8 h-8 bg-orange text-white rounded-lg flex items-center justify-center font-bold text-lg">🧭</div>
+                <span className="text-navy font-bold text-xl tracking-tight">Sarthi AI</span>
+              </div>
+              <nav className="hidden md:flex gap-6 text-xs font-semibold tracking-wider text-text-muted">
+                {['home', 'how-it-works', 'schemes', 'for-citizens', 'for-agents', 'about'].map(p => (
+                  <button key={p} onClick={() => setPage(p)} className={`uppercase pb-1 ${page === p ? 'text-navy border-b-2 border-navy' : 'hover:text-navy'}`}>
+                    {p.replace('-', ' ')}
+                  </button>
+                ))}
+              </nav>
+              <div className="flex gap-2">
+                <button onClick={() => setPage('for-citizens')} className="btn-secondary text-xs">LOGIN</button>
+                <button onClick={() => setPage('for-citizens')} className="btn-navy text-xs">GET STARTED</button>
+              </div>
+            </div>
+          </header>
+
+          {/* Main Content */}
+          <main className="flex-1">
+            {page === 'home' && (
+              <div>
+                {/* Hero */}
+                <section className="bg-bg py-12 px-4 border-b border-border">
+                  <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                    <div>
+                      <div className="inline-block bg-blue-100 text-blue-brand text-xs font-semibold px-3 py-1 rounded-full mb-4">✨ AI-POWERED CITIZEN ASSISTANT</div>
+                      <h1 className="text-4xl font-extrabold text-navy leading-tight">Find the Benefits You're<br /><span className="text-orange">Eligible For.</span></h1>
+                      <h2 className="text-3xl font-extrabold text-navy mt-1 mb-4">We Help You Get Them.</h2>
+                      <p className="text-text-muted text-sm leading-relaxed mb-6">Sarthi AI simplifies access to government schemes. Our intelligent assistant analyzes your profile to match you with eligible programs.</p>
+                      <div className="flex gap-3 mb-6">
+                        <button onClick={() => setPage('schemes')} className="btn-primary">✨ CHECK MY ELIGIBILITY</button>
+                        <button onClick={() => setPage('schemes')} className="btn-secondary">EXPLORE SCHEMES</button>
+                      </div>
+                      <p className="text-xs text-text-muted"><strong>100,000+</strong> Citizens assisted this month.</p>
+                    </div>
+
+                    {/* Chat Box */}
+                    <div className="bg-white border border-border rounded-2xl shadow-lg p-4 max-w-md w-full mx-auto">
+                      <div className="flex items-center gap-2 pb-3 border-b border-border mb-3">
+                        <div className="w-7 h-7 bg-navy text-orange rounded-lg flex items-center justify-center font-bold text-xs">✨</div>
+                        <div>
+                          <p className="text-xs font-bold text-navy">SARTHI AI ASSISTANT</p>
+                          <p className="text-[10px] text-green-600 font-semibold">● Secure & Private</p>
+                        </div>
+                      </div>
+                      <div className="h-56 overflow-y-auto space-y-3 p-1">
+                        {chatMsgs.map((m, i) => (
+                          <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                            <div className={`text-xs p-3 rounded-xl max-w-[85%] ${m.role === 'user' ? 'bg-navy text-white' : 'bg-bg border border-border text-text-dark'}`}>
+                              <p>{m.text}</p>
+                              {m.schemes && (
+                                <div className="mt-2 space-y-1">
+                                  {m.schemes.map(s => (
+                                    <div key={s.id} className="bg-white p-2 border border-border rounded text-[11px] font-semibold text-navy flex justify-between">
+                                      <span>{s.name}</span>
+                                      <span className="text-green-600 font-bold">{s.match}%</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex gap-2 pt-3 border-t border-border mt-2">
+                        <input
+                          value={chatInput}
+                          onChange={e => setChatInput(e.target.value)}
+                          onKeyDown={e => e.key === 'Enter' && handleChatSend()}
+                          placeholder="Ask about schemes..."
+                          className="flex-1 text-xs border border-border rounded-lg px-3 py-2 focus:outline-none"
+                        />
+                        <button onClick={handleChatSend} className="bg-blue-brand text-white text-xs px-3 rounded-lg font-bold">Send</button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* How it works summary */}
+                <section className="py-12 bg-white text-center">
+                  <h2 className="text-2xl font-bold text-navy mb-2">How Sarthi AI Works</h2>
+                  <p className="text-xs text-text-muted mb-8">Our transparent 6-step process ensures you get the benefits you deserve.</p>
+                  <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 px-4">
+                    {[
+                      { num: '1', title: 'DISCOVER', desc: 'AI scans schemes' },
+                      { num: '2', title: 'CHECK', desc: 'Eligibility check' },
+                      { num: '3', title: 'VERIFY', desc: 'Document validation' },
+                      { num: '4', title: 'PREPARE', desc: 'Auto-fill forms' },
+                      { num: '5', title: 'APPLY', desc: 'One-click application' },
+                      { num: '6', title: 'TRACK', desc: 'Status tracking' },
+                    ].map(s => (
+                      <div key={s.num} className="p-4 bg-bg border border-border rounded-xl">
+                        <div className="w-8 h-8 bg-orange text-white rounded-full flex items-center justify-center font-bold text-xs mx-auto mb-2">{s.num}</div>
+                        <p className="text-xs font-bold text-navy">{s.title}</p>
+                        <p className="text-[11px] text-text-muted mt-1">{s.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </div>
+            )}
+
+            {page === 'schemes' && (
+              <div className="max-w-7xl mx-auto px-4 py-8">
+                <h1 className="text-3xl font-extrabold text-navy mb-2">Government Schemes Directory</h1>
+                <p className="text-sm text-text-muted mb-6">Discover schemes that may be available to you based on your profile.</p>
+
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <input
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    placeholder="Search schemes..."
+                    className="border border-border rounded-lg px-4 py-2 text-sm w-full sm:w-64"
+                  />
+                  <div className="flex gap-2">
+                    {['All', 'Education', 'Agriculture', 'Health', 'Housing', 'Social Welfare'].map(cat => (
+                      <button
+                        key={cat}
+                        onClick={() => setSelectedCat(cat)}
+                        className={`text-xs px-3 py-2 rounded-lg font-medium border ${selectedCat === cat ? 'bg-navy text-white border-navy' : 'bg-white text-text-muted border-border'}`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {filteredSchemes.map(s => (
+                    <div key={s.id} className="card flex flex-col justify-between">
+                      <div>
+                        <div className="flex justify-between items-start mb-2">
+                          <span className="text-[11px] bg-blue-50 text-blue-brand font-semibold px-2 py-0.5 rounded">{s.category}</span>
+                          <span className="text-xs bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded">{s.match}% Match</span>
+                        </div>
+                        <h3 className="font-bold text-navy text-base mb-1">{s.name}</h3>
+                        <p className="text-xs text-text-muted mb-3">{s.desc}</p>
+                        <p className="text-xs font-bold text-green-700 bg-green-50 p-2 rounded mb-3">Benefit: {s.benefit}</p>
+                      </div>
+                      <button onClick={() => setPage('for-citizens')} className="btn-primary w-full justify-center text-xs py-2">Apply Now</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {page === 'for-citizens' && (
+              <div className="max-w-5xl mx-auto px-4 py-8">
+                <div className="card mb-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg">TP</div>
+                    <div>
+                      <h2 className="text-xl font-bold text-navy">Good Evening, Tejas Patil</h2>
+                      <p className="text-xs text-text-muted">Profile completion: <span className="font-bold text-orange">85%</span> · SC Category · Pune, Maharashtra</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-navy text-white p-4 rounded-xl">
+                    <p className="text-2xl font-bold">4</p>
+                    <p className="text-xs opacity-80">Recommended Schemes</p>
+                  </div>
+                  <div className="bg-blue-brand text-white p-4 rounded-xl">
+                    <p className="text-2xl font-bold">2</p>
+                    <p className="text-xs opacity-80">Applications</p>
+                  </div>
+                  <div className="bg-green-600 text-white p-4 rounded-xl">
+                    <p className="text-2xl font-bold">6</p>
+                    <p className="text-xs opacity-80">Verified Docs</p>
+                  </div>
+                  <div className="bg-orange text-white p-4 rounded-xl">
+                    <p className="text-2xl font-bold">1</p>
+                    <p className="text-xs opacity-80">Missing Docs</p>
+                  </div>
+                </div>
+
+                <h3 className="font-bold text-navy text-lg mb-3">Your Recommended Schemes</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {SCHEMES.slice(0, 2).map(s => (
+                    <div key={s.id} className="card">
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="text-xs font-bold text-navy">{s.name}</span>
+                        <span className="text-xs text-green-700 font-bold">{s.match}% Match</span>
+                      </div>
+                      <p className="text-xs text-text-muted mb-3">{s.desc}</p>
+                      <button onClick={() => alert("Application pre-filled for Tejas Patil!")} className="btn-navy text-xs w-full justify-center">Start Application</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {(page === 'how-it-works' || page === 'for-agents' || page === 'about') && (
+              <div className="max-w-4xl mx-auto px-4 py-12 text-center">
+                <h1 className="text-3xl font-extrabold text-navy capitalize mb-4">{page.replace('-', ' ')}</h1>
+                <p className="text-sm text-text-muted mb-6">Sarthi AI Digital Citizen Assistant Demo</p>
+                <div className="card text-left max-w-xl mx-auto space-y-3">
+                  <p className="text-xs text-text-dark font-medium">✨ All 13 page components are built into the React source codebase!</p>
+                  <p className="text-xs text-text-muted">You can view all source files inside <code className="bg-bg p-1 rounded">src/pages/</code>.</p>
+                  <button onClick={() => setPage('home')} className="btn-primary text-xs">Return Home</button>
+                </div>
+              </div>
+            )}
+          </main>
+
+          {/* Footer */}
+          <footer className="bg-navy text-white py-8 px-4 text-center text-xs text-white/60">
+            <p>© 2024 Sarthi AI. Find the Benefits You're Eligible For. We Help You Get Them.</p>
+          </footer>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

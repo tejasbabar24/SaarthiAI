@@ -1,4 +1,4 @@
-# JanMitra AI – Government Form Assistant
+# SaarthiAI – Government Form Assistant
 
 ## What this extension does
 This Chrome extension detects one specific offline test form and helps fill it with hardcoded sample citizen data. It works without any network access, APIs, or external services.

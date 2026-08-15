@@ -1,55 +1,52 @@
 const JANMITRA_FORM_MAPPING = {
-  fullName: {
-    selectors: ['#fullName', '#firstname'],
-    label: 'Full Name'
+  firstName: {
+    selectors: ['input[formcontrolname="firstName"]', 'input[name="firstName"]', 'input[autocomplete="given-name"]'],
+    label: 'First Name'
   },
-  dob: {
-    selectors: ['#dob', 'input[name="dob"]', 'input[type="date"]'],
-    label: 'Date of Birth'
-  },
-  gender: {
-    selectors: ['#gender', 'select[name="gender"]'],
-    label: 'Gender'
-  },
-  mobile: {
-    selectors: ['#mobile', 'input[name="mobile"]', 'input[name="phone"]'],
-    label: 'Mobile Number'
-  },
-  aadhaar: {
-    selectors: ['#aadhaar', 'input[name="aadhaar"]'],
-    label: 'Aadhaar Number'
-  },
-  address: {
-    selectors: ['#address', 'textarea[name="address"]', 'input[name="address"]'],
-    label: 'Address'
-  },
-  district: {
-    selectors: ['#district', 'input[name="district"]'],
-    label: 'District'
-  },
-  state: {
-    selectors: ['#state', 'input[name="state"]'],
-    label: 'State'
-  },
-  pinCode: {
-    selectors: ['#pinCode', 'input[name="pinCode"]', 'input[name="pincode"]'],
-    label: 'PIN Code'
+  lastName: {
+    selectors: ['input[formcontrolname="lastName"]', 'input[name="lastName"]', 'input[autocomplete="family-name"]'],
+    label: 'Last Name'
   },
   annualIncome: {
-    selectors: ['#annualIncome', 'input[name="annualIncome"]', 'input[name="income"]'],
+    selectors: ['input[formcontrolname="annualIncome"]', 'input[name="annualIncome"]', 'input[type="number"][min="0"]', 'input[placeholder="e.g. 250000"]'],
     label: 'Annual Family Income'
+  },
+  gender: {
+    selectors: ['select[formcontrolname="gender"]', 'select[name="gender"]', 'select[aria-label="Gender"]'],
+    label: 'Gender',
+    options: {
+      male: ['Male', 'GENDER.MALE', 'M'],
+      female: ['Female', 'GENDER.FEMALE', 'F']
+    }
+  },
+  mobile: {
+    selectors: ['input[type="tel"]', 'input.intl-num', 'input[autocomplete="tel-national"]', 'input[formcontrolname="mobile"]', 'input[name="mobile"]', 'input[name="phone"]'],
+    label: 'Mobile Number'
+  },
+  category: {
+    selectors: ['select[formcontrolname="category"]', 'select[name="category"]'],
+    label: 'Social Category',
+    options: {
+      general: ['General', 'SOCIAL_CATEGORY.GENERAL'],
+      sc: ['SC', 'SOCIAL_CATEGORY.SC'],
+      st: ['ST', 'SOCIAL_CATEGORY.ST'],
+      obc: ['OBC', 'SOCIAL_CATEGORY.OBC'],
+      ews: ['EWS', 'SOCIAL_CATEGORY.EWS'],
+      other: ['Other', 'SOCIAL_CATEGORY.OTHER']
+    }
+  },
+  numberOfSiblings: {
+    selectors: ['input[formcontrolname="numberOfSiblings"]', 'input[name="numberOfSiblings"]', 'input[placeholder="e.g. 2"]', 'input[type="number"][max="20"]'],
+    label: 'Number of Siblings'
   }
 };
 
 const JANMITRA_RAW_DATA = {
-  fullName: 'Tejas Babar',
-  dob: '12/06/2005',
+  firstName: 'Tejas',
+  lastName: 'Babar',
+  annualIncome: '150000',
   gender: 'Male',
   mobile: '9876543210',
-  aadhaar: '123456789012',
-  address: 'Akurdi, Pune',
-  district: 'Pune',
-  state: 'Maharashtra',
-  pinCode: '411035',
-  annualIncome: '150000'
+  category: 'General',
+  numberOfSiblings: '2'
 };

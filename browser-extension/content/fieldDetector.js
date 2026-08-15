@@ -27,8 +27,10 @@ function detectJanMitraTestForm() {
     }
   });
 
+  const minimumRequired = 4;
+
   return {
-    supported: detectedFields.length === mappingKeys.length,
+    supported: detectedFields.length >= minimumRequired,
     detectedFields,
     missingFields,
     totalFields: mappingKeys.length

@@ -28,7 +28,7 @@
     wrapper.style.lineHeight = '1.4';
 
     wrapper.innerHTML = `
-      <div style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">JanMitra AI</div>
+      <div style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">Saarthi AI</div>
       <div style="font-size: 13px; opacity: 0.9; margin-bottom: 12px;">Supported form detected</div>
       <div style="font-size: 13px; background: rgba(234,241,251,0.18); color: #EAF1FB; padding: 8px 12px; border-radius: 12px; margin-bottom: 14px;">${totalFields} fields available</div>
       <button id="janmitra-review-button" style="width:100%; border:none; background:#E96B5B; color:#ffffff; font-weight:600; padding:10px 12px; border-radius:10px; cursor:pointer;">Review & Fill</button>
